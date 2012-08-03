@@ -18,7 +18,7 @@ class Ball:
         self.y = y
         self.velocity_x = 0
         self.velocity_y = 0
-        self.size = 10
+        self.size = 30
         self.color = pygame.Color(0,0,0)
 
     def update(self):
@@ -61,6 +61,7 @@ list_of_balls = [Ball(115,280),
                  Ball(100,300), 
                  Ball(115,320)]
 mother_ball=Ball(50,300)
+mother_ball.color=pygame.Color(255,255,255)
 
 
 while True:
@@ -101,7 +102,16 @@ while True:
         ball.draw(window)
         mother_ball.draw(window)
         mother_ball.update()
+        
         if(checkcollission(mother_ball,list_of_balls[0])==True):
            list_of_balls[0].velocity_x+=5
+
+        if(checkcollission(mother_ball,list_of_balls[1])==True):
+           list_of_balls[1].velocity_x+=4
+
+        if(checkcollission(mother_ball,list_of_balls[2])==True):
+           list_of_balls[2].velocity_x+=5
+
+           
     pygame.display.update()
     clock.tick(30)
