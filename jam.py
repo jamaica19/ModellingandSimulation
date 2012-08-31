@@ -120,7 +120,36 @@ class Table:
         self.color=(0,0,0,)
         self.x =82
         self.y=120
-        self.size=30
+        self.size=50
+
+    def CheckBallCollision(self,pocket,ball, pocket_size):
+        #move to origin
+        origin_x = pocket[0] - ball.x
+        origin_y = pocket[1] - ball.y
+
+        #get distance between circles
+        distance = (origin_x  * origin_x) + (origin_y * origin_y)
+        if (distance <= 0):
+            return False
+        
+        distance = math.sqrt(distance)
+        
+        #check if ball is inside pocket
+        if (distance < pocket_size):
+                return True
+        else:
+                return False
+
+    def Update(self,list_of_balls):
+        for ball in list_of_balls:
+            if (self.CheckBallCollision( [0,0],ball,self.size)             or \
+                 self.CheckBallCollision( [745,120],ball,self.size)    or\
+                 self.CheckBallCollision( [82,550],ball,self.size)     or\
+                 self.CheckBallCollision( [745,550],ball,self.size) ) :
+                 
+                list_of_balls.remove(ball)
+                 
+    
     def draw(self,window):
         
         pygame.draw.rect(window,pygame.Color("White"),self.TableRect,4)
@@ -225,21 +254,25 @@ while True:
             if(ball1!=ball2):
                 if(checkcollision(ball1,ball2)):
                     CollideReaction(ball1,ball2)
+
+    PoolTable.Update(list_of_balls)
+        
+
     PoolTable.CheckCollision(motherball)
     for ball in list_of_balls:
         PoolTable.CheckCollision(ball)
         
     
-
+    PoolTable.draw(window)
     
     motherball.update()
     motherball.draw(window)
         
     for ball in list_of_balls:    
         ball.update()
-        
         ball.draw(window)
-    PoolTable.draw(window)
+        
+
 
     
     pygame.display.update()
